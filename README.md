@@ -1,46 +1,74 @@
-# Getting Started with Create React App
+# 🎬 Cinema ML Recommender Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Dự án **Cinema ML Recommender** là ứng dụng web giúp người dùng **tìm kiếm và gợi ý vé xem phim rẻ nhất** trong thành phố, được phát triển bằng **React + Vite + TypeScript + MUI (Material UI)**.  
+Frontend này kết nối với hệ thống Backend (Spring Boot + Machine Learning API) để xử lý dữ liệu và hiển thị kết quả gợi ý.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+| Vai trò                 | Họ và tên              |
+| ----------------------- | ---------------------- |
+| 🎓 Sinh viên thực hiện  | Nguyễn Nhật Thùy Trinh |
+| 🎓 Sinh viên thực hiện  | Nguyễn Hữu Duy Đạt     |
+| 🧑‍🏫 Giảng viên hướng dẫn | ThS. Mai Xuân Hùng     |
 
-### `npm start`
+---
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## 🚀 Công nghệ sử dụng
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- ⚛️ **React 19** – Framework chính cho giao diện người dùng
+- ⚙️ **Vite** – Công cụ build và dev server siêu nhanh
+- 💬 **TypeScript** – Giúp code an toàn, dễ bảo trì
+- 🎨 **MUI (Material UI)** – Thư viện giao diện hiện đại
+- 🌐 **Axios** – Gọi API từ backend
+- 🔄 **React Router DOM** – Điều hướng trang
+- 🧠 **React Query** – Quản lý state và caching dữ liệu từ server
 
-### `npm test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 📁 Cấu trúc thư mục
+
+cinema-ml-recommender-frontend/
+├─ index.html
+├─ vite.config.ts
+├─ tsconfig.json
+├─ package.json
+├─ public/
+└─ src/
+├─ api/ # Gọi API đến backend (Spring Boot/ML)
+├─ components/ # Các component tái sử dụng
+├─ pages/ # Các trang chính (Home, Detail, Search, ...)
+├─ hooks/ # Custom hooks (gọi API, logic)
+├─ theme.ts # Cấu hình giao diện MUI
+├─ App.tsx # Component gốc của ứng dụng
+├─ main.tsx # Entry point của React
+└─ index.css # CSS global
+
+Ứng dụng này kết nối đến backend qua API (mặc định chạy tại http://localhost:8080).
+Cấu hình baseURL tại file src/api/axiosClient.ts
+
+---
+
+## Hướng dẫn sử dụng các lệnh npm
+
+### `npm run dev`
+
+Lệnh này dùng để **chạy ứng dụng ở môi trường phát triển (Development Mode)**.  
+Sau khi chạy, Vite sẽ khởi động server local giúp bạn xem và chỉnh sửa code trực tiếp.  
+Mỗi khi bạn lưu file, trình duyệt sẽ tự động reload để hiển thị thay đổi.
+
+---
 
 ### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Lệnh này dùng để đóng gói ứng dụng cho môi trường production (deploy thật).
+Vite sẽ biên dịch TypeScript, tối ưu code, nén file và đưa kết quả vào thư mục dist/
+Thư mục này chứa toàn bộ file tĩnh (.html, .js, .css) có thể deploy lên server thật hoặc tích hợp vào backend Spring Boot.
+Khi chạy xong, bạn sẽ thấy thư mục:
+cinema-ml-recommender-frontend/dist/
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+---
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### `npm run preview`
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+Lệnh này dùng để chạy thử bản build production ngay trên máy local.
+Sử dụng khi bạn muốn kiểm tra ứng dụng sau khi build nhưng trước khi deploy.
