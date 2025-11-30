@@ -23,14 +23,17 @@ import { useNavigate } from "react-router-dom";
 import { useMemo, useState } from "react";
 
 export const FavoritesPage = () => {
-  const { favorites, toggleFavorite, clearFavorites, removeFavorite } = useFavorites();
+  const { favorites, toggleFavorite, clearFavorites, removeFavorite } =
+    useFavorites();
   const navigate = useNavigate();
 
   const [genreFilter, setGenreFilter] = useState("all");
   const [sortBy, setSortBy] = useState("recent");
 
   // Lấy danh sách thể loại unique
-  const allGenres = Array.from(new Set(favorites.flatMap((m) => m.genres || [])));
+  const allGenres = Array.from(
+    new Set(favorites.flatMap((m) => m.genres || []))
+  );
 
   // FILTER + SORT
   const filteredMovies = useMemo(() => {
@@ -131,15 +134,14 @@ export const FavoritesPage = () => {
       {/* Empty State */}
       {favorites.length === 0 && (
         <Typography sx={{ color: "#aaa", mt: 4, fontSize: "1.2rem" }}>
-          Bạn chưa thích phim nào.  
-          Hãy bấm ❤️ ở trang phim để thêm nhé!
+          Bạn chưa thích phim nào. Hãy bấm ❤️ ở trang phim để thêm nhé!
         </Typography>
       )}
 
       {/* Movie Grid */}
       <Grid container spacing={3}>
         {filteredMovies.map((movie) => (
-          <Grid item xs={12} sm={6} md={3} key={movie.id}>
+          <Grid size={{ xs: 12, sm: 6, md: 3 }} key={movie.id}>
             <Card
               sx={{
                 backgroundColor: "#1a1a2e",
@@ -214,8 +216,7 @@ export const FavoritesPage = () => {
 
                 {/* Added Time */}
                 <Typography sx={{ mt: 1, fontSize: "0.85rem", color: "#888" }}>
-                  ❤️ Đã thêm:{" "}
-                  {new Date(movie.addedAt).toLocaleString("vi-VN")}
+                  ❤️ Đã thêm: {new Date(movie.addedAt).toLocaleString("vi-VN")}
                 </Typography>
               </CardContent>
             </Card>

@@ -1,11 +1,5 @@
 // src/pages/Admin/AdminDashboard.tsx
-import {
-  Box,
-  Card,
-  CardContent,
-  Typography,
-  Grid,
-} from "@mui/material";
+import { Box, Card, CardContent, Typography, Grid } from "@mui/material";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 
 import {
@@ -36,7 +30,7 @@ export const AdminDashboard = () => {
 
       {/* KPI CARDS */}
       <Grid container spacing={3} sx={{ mb: 4 }}>
-        <Grid item xs={12} md={3}>
+        <Grid size={{ xs: 12, md: 3 }}>
           <Card sx={{ background: "#151925" }}>
             <CardContent>
               <Typography sx={{ opacity: 0.7 }}>Vé bán hôm nay</Typography>
@@ -51,7 +45,7 @@ export const AdminDashboard = () => {
           </Card>
         </Grid>
 
-        <Grid item xs={12} md={3}>
+        <Grid size={{ xs: 12, md: 3 }}>
           <Card sx={{ background: "#151925" }}>
             <CardContent>
               <Typography sx={{ opacity: 0.7 }}>Doanh thu hôm nay</Typography>
@@ -66,19 +60,21 @@ export const AdminDashboard = () => {
           </Card>
         </Grid>
 
-        <Grid item xs={12} md={3}>
+        <Grid size={{ xs: 12, md: 3 }}>
           <Card sx={{ background: "#151925" }}>
             <CardContent>
               <Typography sx={{ opacity: 0.7 }}>Phim đang chiếu</Typography>
               <Typography variant="h5" sx={{ fontWeight: 700 }}>
                 {todayStats.films}
               </Typography>
-              <Typography sx={{ mt: 1, color: "#42a5f5" }}>5 phim mới</Typography>
+              <Typography sx={{ mt: 1, color: "#42a5f5" }}>
+                5 phim mới
+              </Typography>
             </CardContent>
           </Card>
         </Grid>
 
-        <Grid item xs={12} md={3}>
+        <Grid size={{ xs: 12, md: 3 }}>
           <Card sx={{ background: "#151925" }}>
             <CardContent>
               <Typography sx={{ opacity: 0.7 }}>Tỷ lệ lấp đầy</Typography>
@@ -94,7 +90,7 @@ export const AdminDashboard = () => {
       {/* BIỂU ĐỒ */}
       <Grid container spacing={3}>
         {/* BAR CHART */}
-        <Grid item xs={12} md={8}>
+        <Grid size={{ xs: 12, md: 8 }}>
           <Card sx={{ background: "#151925", p: 2 }}>
             <Typography variant="h6" sx={{ mb: 2 }}>
               Doanh Thu 6 Tháng Gần Nhất
@@ -110,7 +106,7 @@ export const AdminDashboard = () => {
         </Grid>
 
         {/* PIE CHART */}
-        <Grid item xs={12} md={4}>
+        <Grid size={{ xs: 12, md: 4 }}>
           <Card sx={{ background: "#151925", p: 2 }}>
             <Typography variant="h6" sx={{ mb: 2 }}>
               Phân Loại Phim

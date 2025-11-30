@@ -7,6 +7,7 @@ import {
   Button,
   Grid,
 } from "@mui/material";
+
 import { useState } from "react";
 
 interface AddCinemaModalProps {
@@ -15,7 +16,11 @@ interface AddCinemaModalProps {
   onCreate: (data: any) => void;
 }
 
-export const AddCinemaModal = ({ open, onClose, onCreate }: AddCinemaModalProps) => {
+export const AddCinemaModal = ({
+  open,
+  onClose,
+  onCreate,
+}: AddCinemaModalProps) => {
   const [form, setForm] = useState({
     name: "",
     city: "",
@@ -38,7 +43,7 @@ export const AddCinemaModal = ({ open, onClose, onCreate }: AddCinemaModalProps)
       <DialogTitle>Thêm Rạp Mới</DialogTitle>
       <DialogContent dividers>
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <TextField
               fullWidth
               label="Tên rạp"
@@ -47,7 +52,7 @@ export const AddCinemaModal = ({ open, onClose, onCreate }: AddCinemaModalProps)
             />
           </Grid>
 
-          <Grid item xs={12} sm={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <TextField
               fullWidth
               label="Thành phố"
@@ -56,7 +61,7 @@ export const AddCinemaModal = ({ open, onClose, onCreate }: AddCinemaModalProps)
             />
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <TextField
               fullWidth
               label="URL Hình ảnh"
@@ -65,7 +70,7 @@ export const AddCinemaModal = ({ open, onClose, onCreate }: AddCinemaModalProps)
             />
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <TextField
               fullWidth
               label="Mô tả"
@@ -74,7 +79,7 @@ export const AddCinemaModal = ({ open, onClose, onCreate }: AddCinemaModalProps)
             />
           </Grid>
 
-          <Grid item xs={12} sm={6}>
+          <Grid size={{ xs: 12, sm: 4 }}>
             <TextField
               fullWidth
               label="Địa chỉ"
@@ -83,7 +88,7 @@ export const AddCinemaModal = ({ open, onClose, onCreate }: AddCinemaModalProps)
             />
           </Grid>
 
-          <Grid item xs={12} sm={3}>
+          <Grid size={{ xs: 12, sm: 4 }}>
             <TextField
               fullWidth
               label="Số điện thoại"
@@ -92,7 +97,7 @@ export const AddCinemaModal = ({ open, onClose, onCreate }: AddCinemaModalProps)
             />
           </Grid>
 
-          <Grid item xs={12} sm={3}>
+          <Grid size={{ xs: 12, sm: 4 }}>
             <TextField
               fullWidth
               label="Email"
@@ -101,7 +106,7 @@ export const AddCinemaModal = ({ open, onClose, onCreate }: AddCinemaModalProps)
             />
           </Grid>
 
-          <Grid item xs={12} sm={4}>
+          <Grid size={{ xs: 12, sm: 4 }}>
             <TextField
               fullWidth
               type="number"
@@ -111,7 +116,7 @@ export const AddCinemaModal = ({ open, onClose, onCreate }: AddCinemaModalProps)
             />
           </Grid>
 
-          <Grid item xs={12} sm={4}>
+          <Grid size={{ xs: 12, sm: 4 }}>
             <TextField
               fullWidth
               type="number"
@@ -121,7 +126,7 @@ export const AddCinemaModal = ({ open, onClose, onCreate }: AddCinemaModalProps)
             />
           </Grid>
 
-          <Grid item xs={12} sm={4}>
+          <Grid size={{ xs: 12, sm: 4 }}>
             <TextField
               fullWidth
               label="Giờ hoạt động"

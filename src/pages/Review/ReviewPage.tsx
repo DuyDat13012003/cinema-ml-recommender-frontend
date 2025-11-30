@@ -23,7 +23,7 @@ export const ReviewPage = () => {
 
       <Grid container spacing={3} sx={{ mb: 5 }}>
         {featured.map((item) => (
-          <Grid item xs={12} md={6} key={item.id}>
+          <Grid size={{ xs: 12, sm: 6 }} key={item.id}>
             <ReviewFeaturedCard item={item} />
           </Grid>
         ))}
@@ -36,11 +36,11 @@ export const ReviewPage = () => {
 
       <Grid container spacing={3}>
         {community.map((item) => (
-          <Grid item xs={12} md={6} key={item.id}>
+          <Grid size={{ xs: 12, sm: 6 }} key={item.id}>
             <ReviewCard item={item} />
           </Grid>
         ))}
       </Grid>
-    </Box>  
+    </Box>
   );
 };

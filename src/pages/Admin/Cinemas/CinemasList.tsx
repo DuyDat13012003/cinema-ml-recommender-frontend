@@ -1,5 +1,12 @@
 // src/pages/Admin/Cinemas/CinemasList.tsx
-import { Box, Typography, Button, Card, CardContent, Grid } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Button,
+  Card,
+  CardContent,
+  Grid,
+} from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useAdminCinemas } from "../../../hooks/admin/useAdminCinemas";
 
@@ -15,7 +22,7 @@ export const CinemasList = () => {
 
       <Grid container spacing={3}>
         {cinemas?.map((c) => (
-          <Grid item xs={12} sm={6} md={4} key={c.id}>
+          <Grid size={{ xs: 12, sm: 6, md: 4 }} key={c.id}>
             <Card sx={{ background: "#1a1a2e", color: "#fff" }}>
               <CardContent>
                 <Typography variant="h6" sx={{ mb: 1 }}>

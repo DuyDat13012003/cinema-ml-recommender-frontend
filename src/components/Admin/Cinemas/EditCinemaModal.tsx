@@ -50,104 +50,95 @@ export const EditCinemaModal = ({
         </Typography>
 
         <Grid container spacing={2}>
-          <Grid item xs={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <TextField
               fullWidth
               label="Tên Rạp"
               value={form.name}
               onChange={(e) => handleChange("name", e.target.value)}
-              InputLabelProps={{ style: { color: "#bbb" } }}
               sx={{ input: { color: "white" } }}
             />
           </Grid>
 
-          <Grid item xs={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <TextField
               fullWidth
               label="Thành Phố"
               value={form.city}
               onChange={(e) => handleChange("city", e.target.value)}
-              InputLabelProps={{ style: { color: "#bbb" } }}
               sx={{ input: { color: "white" } }}
             />
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <TextField
               fullWidth
               label="Địa Chỉ"
               value={form.address}
               onChange={(e) => handleChange("address", e.target.value)}
-              InputLabelProps={{ style: { color: "#bbb" } }}
               sx={{ input: { color: "white" } }}
             />
           </Grid>
 
-          <Grid item xs={6}>
+          <Grid size={{ xs: 12, sm: 4 }}>
             <TextField
               fullWidth
               label="Số Điện Thoại"
               value={form.phone}
               onChange={(e) => handleChange("phone", e.target.value)}
-              InputLabelProps={{ style: { color: "#bbb" } }}
               sx={{ input: { color: "white" } }}
             />
           </Grid>
 
-          <Grid item xs={6}>
+          <Grid size={{ xs: 12, sm: 4 }}>
             <TextField
               fullWidth
               label="Email"
               value={form.email}
               onChange={(e) => handleChange("email", e.target.value)}
-              InputLabelProps={{ style: { color: "#bbb" } }}
               sx={{ input: { color: "white" } }}
             />
           </Grid>
 
-          <Grid item xs={4}>
+          <Grid size={{ xs: 4 }}>
             <TextField
               fullWidth
               label="Số Phòng Chiếu"
               value={form.rooms}
               onChange={(e) => handleChange("rooms", e.target.value)}
-              InputLabelProps={{ style: { color: "#bbb" } }}
               sx={{ input: { color: "white" } }}
             />
           </Grid>
 
-          <Grid item xs={4}>
+          <Grid size={{ xs: 4 }}>
             <TextField
               fullWidth
               label="Tổng Ghế"
               value={form.seats}
               onChange={(e) => handleChange("seats", e.target.value)}
-              InputLabelProps={{ style: { color: "#bbb" } }}
               sx={{ input: { color: "white" } }}
             />
           </Grid>
 
-          <Grid item xs={4}>
+          <Grid size={{ xs: 4 }}>
             <TextField
               fullWidth
               label="Giờ Hoạt Động"
               value={form.openingHours}
               onChange={(e) => handleChange("openingHours", e.target.value)}
-              InputLabelProps={{ style: { color: "#bbb" } }}
               sx={{ input: { color: "white" } }}
             />
           </Grid>
 
           {/* SELECT TRẠNG THÁI */}
-          <Grid item xs={6}>
+          <Grid size={{ xs: 12, sm: 4 }}>
             <TextField
               fullWidth
               label="Trạng Thái"
               select
               value={form.status}
               onChange={(e) => handleChange("status", e.target.value)}
-              InputLabelProps={{ style: { color: "#bbb" } }}
-              sx={{ 
+              sx={{
                 input: { color: "white" },
                 ".MuiSelect-select": { color: "white" },
               }}
@@ -158,13 +149,12 @@ export const EditCinemaModal = ({
           </Grid>
 
           {/* URL IMAGE */}
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <TextField
               fullWidth
               label="URL Hình Ảnh"
               value={form.image}
               onChange={(e) => handleChange("image", e.target.value)}
-              InputLabelProps={{ style: { color: "#bbb" } }}
               sx={{ input: { color: "white" } }}
             />
           </Grid>

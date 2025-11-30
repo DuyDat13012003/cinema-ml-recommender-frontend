@@ -38,9 +38,7 @@ export const WatchedPage = () => {
 
     // FILTER
     if (genreFilter !== "all") {
-      list = list.filter((movie) =>
-        movie.genres?.includes(genreFilter)
-      );
+      list = list.filter((movie) => movie.genres?.includes(genreFilter));
     }
 
     // SORT
@@ -149,7 +147,7 @@ export const WatchedPage = () => {
       {/* MOVIE GRID */}
       <Grid container spacing={3}>
         {filteredMovies.map((movie) => (
-          <Grid item xs={12} sm={6} md={3} key={movie.id}>
+          <Grid size={{ xs: 12, sm: 6, md: 3 }} key={movie.id}>
             <Card
               sx={{
                 backgroundColor: "#1a1a2e",

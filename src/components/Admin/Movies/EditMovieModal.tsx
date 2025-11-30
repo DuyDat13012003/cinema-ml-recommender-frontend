@@ -35,7 +35,6 @@ export const EditMovieModal = ({
   movie,
   onSave,
 }: EditMovieModalProps) => {
-  
   // ----------------------
   // 2. Khởi tạo state có kiểu Movie
   // ----------------------
@@ -72,13 +71,11 @@ export const EditMovieModal = ({
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
-      
       <DialogTitle>Chỉnh Sửa Phim</DialogTitle>
 
       <DialogContent dividers>
         <Grid container spacing={2}>
-          
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <TextField
               label="Tên phim"
               fullWidth
@@ -87,7 +84,7 @@ export const EditMovieModal = ({
             />
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <TextField
               label="Thể loại"
               fullWidth
@@ -96,7 +93,7 @@ export const EditMovieModal = ({
             />
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <TextField
               label="Thời lượng (phút)"
               type="number"
@@ -106,7 +103,7 @@ export const EditMovieModal = ({
             />
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <TextField
               label="Đạo diễn"
               fullWidth
@@ -115,7 +112,7 @@ export const EditMovieModal = ({
             />
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <TextField
               label="Diễn viên"
               fullWidth
@@ -124,7 +121,7 @@ export const EditMovieModal = ({
             />
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <TextField
               label="Link ảnh"
               fullWidth
@@ -132,7 +129,6 @@ export const EditMovieModal = ({
               onChange={(e) => update("image", e.target.value)}
             />
           </Grid>
-
         </Grid>
       </DialogContent>
 
@@ -149,7 +145,6 @@ export const EditMovieModal = ({
           Lưu
         </Button>
       </DialogActions>
-
     </Dialog>
   );
 };

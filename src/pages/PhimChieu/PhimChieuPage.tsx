@@ -1,17 +1,10 @@
 // ==================== PhimChieuPage.tsx ====================
 import { useState } from "react";
-import {
-  Box,
-  Typography,
-  Tabs,
-  Tab,
-  Grid,
-} from "@mui/material";
+import { Box, Typography, Tabs, Tab, Grid } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { useMovies } from "../../hooks/useMovies";
 import { MovieCard } from "../../components/Common/MovieCard";
-
 
 export const PhimChieuPage = () => {
   const navigate = useNavigate();
@@ -85,23 +78,22 @@ export const PhimChieuPage = () => {
       {/* ====================== MOVIE GRID ====================== */}
       <Grid container spacing={3}>
         {list.map((movie) => (
-            <Grid item xs={12} sm={6} md={4} lg={3} key={movie.id}>
+          <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={movie.id}>
             <MovieCard
-                id={movie.id}
-                title={movie.title}
-                posterUrl={movie.posterUrl}
-                rating={movie.rating}
-                releaseDate={movie.releaseDate}
-                genres={movie.genres}
-                ageRating={movie.ageRating}
+              id={movie.id}
+              title={movie.title}
+              posterUrl={movie.posterUrl}
+              rating={movie.rating}
+              releaseDate={movie.releaseDate}
+              genres={movie.genres}
+              ageRating={movie.ageRating}
+              // 2 cái này KHÔNG cần truyền vì MovieCard tự navigate
+              // onClick={() => navigate(`/movie/${movie.id}`)}
+              // onBook={() => navigate(`/booking/${movie.id}`)}
 
-                // 2 cái này KHÔNG cần truyền vì MovieCard tự navigate
-                // onClick={() => navigate(`/movie/${movie.id}`)}
-                // onBook={() => navigate(`/booking/${movie.id}`)}
-
-                showBookingButton={true}   // hoặc false nếu bạn muốn ẩn nút
+              showBookingButton={true} // hoặc false nếu bạn muốn ẩn nút
             />
-            </Grid>
+          </Grid>
         ))}
       </Grid>
 

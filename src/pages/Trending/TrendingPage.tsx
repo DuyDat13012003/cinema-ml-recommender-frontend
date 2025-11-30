@@ -21,11 +21,21 @@ export const TrendingPage = () => {
   const [ageFilter, setAgeFilter] = useState("All");
   const [sortBy, setSortBy] = useState("rating-desc");
 
-  const genres = ["All", "Action", "Drama", "Sci-Fi", "Adventure", "Animation", "Fantasy"];
+  const genres = [
+    "All",
+    "Action",
+    "Drama",
+    "Sci-Fi",
+    "Adventure",
+    "Animation",
+    "Fantasy",
+  ];
   const ageRatings = ["All", "6+", "13+", "16+", "18+"];
 
   const filteredMovies = trendingMovies
-    ?.filter((movie) => genreFilter === "All" || movie.genres.includes(genreFilter))
+    ?.filter(
+      (movie) => genreFilter === "All" || movie.genres.includes(genreFilter)
+    )
     ?.filter((movie) => ageFilter === "All" || movie.ageRating === ageFilter)
     ?.sort((a, b) => {
       if (sortBy === "rating-desc") return b.rating - a.rating;
@@ -138,9 +148,13 @@ export const TrendingPage = () => {
       {/* MOVIE GRID */}
       <Grid container spacing={3}>
         {filteredMovies?.map((movie) => (
-          <Grid item xs={12} sm={6} md={3} key={movie.id}>
-            <Box sx={{ width: "280px", // ⭐ GIỐNG HOME → FIX CARD LỆCH
-                maxWidth: "280px", }}>
+          <Grid size={{ xs: 12, sm: 6, md: 3 }} key={movie.id}>
+            <Box
+              sx={{
+                width: "280px", // ⭐ GIỐNG HOME → FIX CARD LỆCH
+                maxWidth: "280px",
+              }}
+            >
               <MovieCard {...movie} />
             </Box>
           </Grid>

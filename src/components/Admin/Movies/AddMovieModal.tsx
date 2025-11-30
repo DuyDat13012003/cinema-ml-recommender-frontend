@@ -41,7 +41,7 @@ export const AddMovieModal = ({
 
       <DialogContent dividers>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <TextField
               label="Tên phim"
               fullWidth
@@ -50,7 +50,7 @@ export const AddMovieModal = ({
             />
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <TextField
               label="Thể loại"
               fullWidth
@@ -59,7 +59,7 @@ export const AddMovieModal = ({
             />
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <TextField
               label="Thời lượng (phút)"
               type="number"
@@ -69,7 +69,7 @@ export const AddMovieModal = ({
             />
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <TextField
               label="Link hình ảnh"
               fullWidth

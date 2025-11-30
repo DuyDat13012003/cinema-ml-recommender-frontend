@@ -98,12 +98,14 @@ export const PromotionsAdmin = () => {
       {/* Promotion Grid */}
       <Grid container spacing={3}>
         {filteredPromotions.length === 0 ? (
-          <Box sx={{ color: "#888", mt: 5, textAlign: "center", width: "100%" }}>
+          <Box
+            sx={{ color: "#888", mt: 5, textAlign: "center", width: "100%" }}
+          >
             Không có khuyến mãi nào.
           </Box>
         ) : (
           filteredPromotions.map((p) => (
-            <Grid item xs={12} sm={6} md={4} lg={3} key={p.id}>
+            <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={p.id}>
               <PromotionCard
                 item={p}
                 onEdit={(promo) => {

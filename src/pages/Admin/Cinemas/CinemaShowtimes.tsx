@@ -1,5 +1,12 @@
 // src/pages/Admin/Cinemas/CinemaShowtimes.tsx
-import { Box, Typography, Card, CardContent, Button, Grid } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Card,
+  CardContent,
+  Button,
+  Grid,
+} from "@mui/material";
 import { useParams } from "react-router-dom";
 import { useAdminShowtimes } from "../../../hooks/admin/useAdminShowtimes";
 
@@ -25,7 +32,7 @@ export const CinemaShowtimes = () => {
 
       <Grid container spacing={3}>
         {showtimes.map((s) => (
-          <Grid item xs={12} sm={6} md={4} key={s.id}>
+          <Grid size={{ xs: 12, sm: 6, md: 4 }} key={s.id}>
             <Card sx={{ background: "#1a1a2e", color: "#fff" }}>
               <CardContent>
                 <Typography variant="h6" sx={{ fontWeight: 600 }}>
@@ -63,4 +70,3 @@ export const CinemaShowtimes = () => {
     </Box>
   );
 };
-  
