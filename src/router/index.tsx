@@ -94,7 +94,7 @@ export const AppRouter = () => {
           <Route path="showtimes" element={<ShowtimesPage />} />
           {/* Booking bắt buộc login */}
           <Route
-            path="booking/:showtimeId"
+            path="booking/:movieId"
             element={
               <ProtectedRoute>
                 <MovieBookingTicket />

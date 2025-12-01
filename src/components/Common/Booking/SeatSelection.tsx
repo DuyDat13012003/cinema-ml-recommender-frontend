@@ -98,7 +98,11 @@ export const SeatSelection = ({ seats, onSelectSeats }: SeatSelectionProps) => {
             <Box sx={{ display: "flex", gap: 1 }}>
               {rowSeats.map((seat) => {
                 const isSelected = selectedSeats.includes(seat.id);
-                const price = seat.basePrice + seat.extraPrice;
+                const price =
+                  seat.type === "couple"
+                    ? (seat.basePrice + seat.extraPrice) * 2
+                    : seat.basePrice + seat.extraPrice;
+
 
                 // COLOR
                 const bgColor = isSelected

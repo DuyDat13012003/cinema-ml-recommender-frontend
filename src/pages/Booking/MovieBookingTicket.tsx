@@ -12,9 +12,13 @@ import { DateSelection } from "../../components/Common/Booking/DateSelection";
 import { ShowtimeSelection } from "../../components/Common/Booking/ShowtimeSelection";
 import { SeatSelection } from "../../components/Common/Booking/SeatSelection";
 import { PaymentSummary } from "../../components/Common/Booking/PaymentSummary";
+import { moviesMock } from "../../hooks/useMovies";
+import { useWatched } from "../../context/WatchedContext";
+
 
 export const MovieBookingTicket = () => {
-  const { id: movieId } = useParams();
+  const { movieId } = useParams();
+
 
   // ======== STATE ========
   const [selectedCinema, setSelectedCinema] = useState<string>();
@@ -70,10 +74,13 @@ export const MovieBookingTicket = () => {
     const time =
       showtimes?.find((s) => s.id === selectedShowtime)?.time ?? "";
 
-    const subtotal = selectedSeats.reduce(
-      (sum, s) => sum + (s.basePrice + s.extraPrice),
-      0
-    );
+    const subtotal = selectedSeats.reduce((sum, s) => {
+      if (s.type === "couple") {
+        return sum + (s.basePrice + s.extraPrice) * 2; // GHẾ ĐÔI = giá × 2
+      }
+      return sum + (s.basePrice + s.extraPrice);
+    }, 0);
+
     const tax = subtotal * 0.1;
 
     return {
@@ -96,10 +103,29 @@ export const MovieBookingTicket = () => {
     cinemas,
     movieId,
   ]);
+  const { addWatched } = useWatched();
 
   const handleConfirmBooking = () => {
-    alert("🎉 Đặt vé thành công!");
-  };
+  const movie = moviesMock.find(m => m.id === movieId);
+
+  if (movie) {
+    addWatched({
+      id: movie.id,
+      title: movie.title,
+      posterUrl: movie.posterUrl,
+      rating: movie.rating,
+      genres: movie.genres,
+      releaseDate: movie.releaseDate,
+    });
+  } else {
+    console.warn("❗ Movie không tồn tại trong moviesMock:", movieId);
+  }
+
+  alert("🎉 Đặt vé thành công!");
+};
+
+
+
 
   // ======== LOADING ========
   if (loadingCinemas) {

@@ -52,7 +52,7 @@ export const AuditoriumDetail = () => {
             number: col,
             column: col,
             type: "regular",
-            isAvailable: true,
+            status: "available",
             basePrice: 90000,
             extraPrice: 0,
           });

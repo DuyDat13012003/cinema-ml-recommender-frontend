@@ -50,14 +50,14 @@ export const MovieDetail = () => {
   // ⭐ Lưu phim đã xem vào WatchedContext
   useEffect(() => {
     if (movieDetail) {
-      addWatched({
+      /*addWatched({
         id: movieDetail.id,
         title: movieDetail.title,
         posterUrl: movieDetail.posterUrl,
         rating: movieDetail.rating,
         genres: movieDetail.genres,
         releaseDate: movieDetail.releaseDate,
-      });
+      });*/
     }
   }, [movieDetail]);
 
