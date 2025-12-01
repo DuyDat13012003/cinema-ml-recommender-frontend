@@ -27,7 +27,7 @@ export const CastSection = ({ cast }: CastSectionProps) => {
 
       <Grid container spacing={3}>
         {cast.map((actor) => (
-          <Grid item xs={12} sm={6} md={4} lg={3} key={actor.id}>
+          <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={actor.id}>
             <Card
               sx={{
                 backgroundColor: '#1a1a2e',

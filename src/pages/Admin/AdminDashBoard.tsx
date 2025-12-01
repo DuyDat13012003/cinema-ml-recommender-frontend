@@ -114,7 +114,7 @@ export const AdminDashboard = () => {
 
             <PieChart width={350} height={300}>
               <Pie
-                data={pieData}
+                data={pieData as any[]}
                 cx="50%"
                 cy="50%"
                 outerRadius={90}

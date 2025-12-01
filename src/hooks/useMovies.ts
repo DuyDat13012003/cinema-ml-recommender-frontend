@@ -120,6 +120,7 @@ const mockMovies: Movie[] = [
     backgroundUrl: 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=1200',
   },
 ];
+export const moviesMock = mockMovies;
 
 const mockMovieDetails: { [key: string]: MovieDetail } = {
   '1': {

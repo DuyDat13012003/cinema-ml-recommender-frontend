@@ -8,137 +8,74 @@ import {
   MenuItem,
   IconButton,
   Chip,
-  Button,
 } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import CloseIcon from "@mui/icons-material/Close";
+
 import { useState } from "react";
 import { TicketDetailModal } from "../../../components/Admin/Tickets/TicketDetailModal";
 import { CancelTicketModal } from "../../../components/Admin/Tickets/CancelTicketModal";
-// ======================= TYPES =======================
-type TicketStatus = "confirmed" | "pending" | "cancelled";
 
-interface Ticket {
-  id: string;
-  customer: string;
-  email: string;
-  movie: string;
-  showtime: string;
-  room: string;
-  seats: string;
-  price: number;
-  status: TicketStatus;
-}
+import {
+  useAdminTickets,
+  Ticket,
+  DateFilter,
+  TicketStatus,
+} from "../../../hooks/admin/useAdminTickets";
 
-// ======================= MAIN COMPONENT =======================
 export const TicketsManagement = () => {
-  // Fake data
-  const ticketData: Ticket[] = [
-    {
-      id: "TK001247",
-      customer: "Nguyễn Văn A",
-      email: "nguyenvana@email.com",
-      movie: "Godzilla x Kong",
-      showtime: "10/11/2025 14:30",
-      room: "P1",
-      seats: "A5, A6",
-      price: 180000,
-      status: "confirmed",
-    },
-    {
-      id: "TK001248",
-      customer: "Trần Thị B",
-      email: "tranthib@email.com",
-      movie: "Dune: Part Two",
-      showtime: "10/11/2025 15:00",
-      room: "P3",
-      seats: "D7, D8",
-      price: 200000,
-      status: "confirmed",
-    },
-    {
-      id: "TK001249",
-      customer: "Lê Văn C",
-      email: "levanc@email.com",
-      movie: "Kung Fu Panda 4",
-      showtime: "10/11/2025 15:30",
-      room: "P2",
-      seats: "C3, C4, C5",
-      price: 240000,
-      status: "pending",
-    },
-    {
-      id: "TK001250",
-      customer: "Phạm Thị D",
-      email: "phamthid@email.com",
-      movie: "Civil War",
-      showtime: "10/11/2025 16:00",
-      room: "P4",
-      seats: "H8, H9",
-      price: 220000,
-      status: "cancelled",
-    },
-    {
-      id: "TK001251",
-      customer: "Hoàng Văn E",
-      email: "hoangvane@email.com",
-      movie: "Godzilla x Kong",
-      showtime: "10/11/2025 18:00",
-      room: "P1",
-      seats: "E10, E11",
-      price: 220000,
-      status: "confirmed",
-    },
-  ];
+  const {
+    tickets,
+    stats,
+    filterDate,
+    setFilterDate,
+    filterStatus,
+    setFilterStatus,
+    search,
+    setSearch,
+  } = useAdminTickets();
 
-  const [statusFilter, setStatusFilter] = useState<"all" | TicketStatus>("all");
-  const [search, setSearch] = useState("");
   const [selectedTicket, setSelectedTicket] = useState<Ticket | null>(null);
   const [detailOpen, setDetailOpen] = useState(false);
 
   const [cancelOpen, setCancelOpen] = useState(false);
   const [ticketToCancel, setTicketToCancel] = useState<string>("");
-  // ======================= STATUS LABELS =======================
+
+  // STATUS BADGE
   const statusLabel: Record<TicketStatus, { text: string; color: string }> = {
     confirmed: { text: "Đã xác nhận", color: "#22c55e" },
     pending: { text: "Chờ xử lý", color: "#eab308" },
     cancelled: { text: "Đã hủy", color: "#ef4444" },
   };
 
-  // ======================= FILTERED DATA =======================
-  const filteredTickets = ticketData.filter((t) => {
-    const matchSearch =
-      t.id.toLowerCase().includes(search.toLowerCase()) ||
-      t.customer.toLowerCase().includes(search.toLowerCase()) ||
-      t.movie.toLowerCase().includes(search.toLowerCase());
+  // DATE FILTER LABEL
+  const dateOptions: { value: DateFilter; label: string }[] = [
+    { value: "today", label: "Hôm nay" },
+    { value: "yesterday", label: "Hôm qua" },
+    { value: "last7days", label: "7 ngày qua" },
+    { value: "thisMonth", label: "Tháng này" },
+    { value: "lastMonth", label: "Tháng trước" },
+    { value: "all", label: "Tất cả" },
+  ];
 
-    const matchStatus = statusFilter === "all" || t.status === statusFilter;
-
-    return matchSearch && matchStatus;
-  });
-
-  // ======================= UI =======================
   return (
     <Box sx={{ color: "white" }}>
-      {/* Title */}
+      {/* TITLE */}
       <Typography variant="h4" sx={{ mb: 1, fontWeight: 700 }}>
         Quản Lý Vé và Đặt Chỗ
       </Typography>
       <Typography sx={{ opacity: 0.7, mb: 4 }}>
-        Xem danh sách vé đã đặt, trạng thái ghế và xử lý yêu cầu
+        Xem danh sách vé theo ngày, trạng thái, thống kê doanh thu
       </Typography>
 
       {/* ===== STAT CARDS ===== */}
       <Box sx={{ display: "flex", gap: 3, mb: 4, flexWrap: "wrap" }}>
-        {/* Tổng vé hôm nay */}
+        {/* Tổng vé */}
         <Card sx={{ background: "#151925", borderRadius: "12px", width: 330 }}>
           <CardContent>
-            <Typography sx={{ opacity: 0.7 }}>Tổng vé hôm nay</Typography>
+            <Typography sx={{ opacity: 0.7 }}>Tổng vé</Typography>
             <Typography sx={{ fontSize: 32, fontWeight: 700, mt: 1 }}>
-              1,247 vé
-            </Typography>
-            <Typography sx={{ mt: 1, color: "#22c55e", fontWeight: 500 }}>
-              +12.5% so với hôm qua
+              {stats.total.toLocaleString()} vé
             </Typography>
           </CardContent>
         </Card>
@@ -148,11 +85,9 @@ export const TicketsManagement = () => {
           <CardContent>
             <Typography sx={{ opacity: 0.7 }}>Chờ xử lý</Typography>
             <Typography sx={{ fontSize: 32, fontWeight: 700, mt: 1 }}>
-              23 vé
+              {stats.pending}
             </Typography>
-            <Typography sx={{ mt: 1, color: "#eab308", fontWeight: 500 }}>
-              Cần xác nhận
-            </Typography>
+            <Typography sx={{ mt: 1, color: "#eab308" }}>Cần xác nhận</Typography>
           </CardContent>
         </Card>
 
@@ -161,26 +96,33 @@ export const TicketsManagement = () => {
           <CardContent>
             <Typography sx={{ opacity: 0.7 }}>Đã hủy</Typography>
             <Typography sx={{ fontSize: 32, fontWeight: 700, mt: 1 }}>
-              15 vé
+              {stats.cancelled}
             </Typography>
-            <Typography sx={{ mt: 1, color: "#ef4444", fontWeight: 500 }}>
-              -3.2% so với hôm qua
+            <Typography sx={{ mt: 1, color: "#ef4444" }}>
+              Theo lọc thời gian
+            </Typography>
+          </CardContent>
+        </Card>
+
+        {/* Doanh thu */}
+        <Card sx={{ background: "#151925", borderRadius: "12px", width: 330 }}>
+          <CardContent>
+            <Typography sx={{ opacity: 0.7 }}>Doanh thu</Typography>
+            <Typography sx={{ fontSize: 32, fontWeight: 700, mt: 1 }}>
+              {stats.totalRevenue.toLocaleString()} đ
+            </Typography>
+            <Typography sx={{ mt: 1, color: "#22c55e" }}>
+              Tổng theo bộ lọc
             </Typography>
           </CardContent>
         </Card>
       </Box>
 
-      {/* ===== SEARCH BAR + FILTER ===== */}
-      <Box
-        sx={{
-          display: "flex",
-          gap: 2,
-          mb: 3,
-          alignItems: "center",
-        }}
-      >
+      {/* ===== FILTER BAR ===== */}
+      <Box sx={{ display: "flex", gap: 2, mb: 3, alignItems: "center" }}>
+        {/* Search */}
         <TextField
-          placeholder="Tìm kiếm theo mã vé, tên khách hàng, phim…"
+          placeholder="Tìm kiếm mã vé, tên khách hàng, phim…"
           variant="outlined"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
@@ -192,18 +134,42 @@ export const TicketsManagement = () => {
           }}
         />
 
+        {/* Date Filter */}
         <TextField
           select
-          value={statusFilter}
-          onChange={(e) => setStatusFilter(e.target.value as any)}
+          label="Thời gian"
+          value={filterDate}
+          onChange={(e) => setFilterDate(e.target.value as DateFilter)}
+          sx={{
+            width: 220,
+            background: "#1b1f2e",
+            borderRadius: "8px",
+            ".MuiSelect-select": { color: "white" },
+            label: { color: "#ccc" },
+          }}
+        >
+          {dateOptions.map((d) => (
+            <MenuItem key={d.value} value={d.value}>
+              {d.label}
+            </MenuItem>
+          ))}
+        </TextField>
+
+        {/* Status Filter */}
+        <TextField
+          select
+          label="Trạng thái"
+          value={filterStatus}
+          onChange={(e) => setFilterStatus(e.target.value as TicketStatus | "all")}
           sx={{
             width: 200,
             background: "#1b1f2e",
             borderRadius: "8px",
             ".MuiSelect-select": { color: "white" },
+            label: { color: "#ccc" },
           }}
         >
-          <MenuItem value="all">Tất cả trạng thái</MenuItem>
+          <MenuItem value="all">Tất cả</MenuItem>
           <MenuItem value="confirmed">Đã xác nhận</MenuItem>
           <MenuItem value="pending">Chờ xử lý</MenuItem>
           <MenuItem value="cancelled">Đã hủy</MenuItem>
@@ -242,7 +208,7 @@ export const TicketsManagement = () => {
         </Box>
 
         {/* Rows */}
-        {filteredTickets.map((t) => (
+        {tickets.map((t) => (
           <Box
             key={t.id}
             sx={{
@@ -277,7 +243,6 @@ export const TicketsManagement = () => {
 
             <Typography>{t.price.toLocaleString()} đ</Typography>
 
-            {/* Badge trạng thái */}
             <Chip
               label={statusLabel[t.status].text}
               sx={{
@@ -287,6 +252,7 @@ export const TicketsManagement = () => {
               }}
             />
 
+            {/* ACTIONS */}
             <Box sx={{ display: "flex", gap: 1 }}>
               <IconButton
                 sx={{ color: "#fff" }}
@@ -310,11 +276,12 @@ export const TicketsManagement = () => {
                 </IconButton>
               )}
             </Box>
-
           </Box>
         ))}
       </Box>
-            <TicketDetailModal
+
+      {/* MODALS */}
+      <TicketDetailModal
         open={detailOpen}
         onClose={() => setDetailOpen(false)}
         ticket={selectedTicket}
