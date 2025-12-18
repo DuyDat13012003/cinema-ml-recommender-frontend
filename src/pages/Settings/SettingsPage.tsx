@@ -1,3 +1,7 @@
+// =========================================================
+// src/pages/Settings/SettingsPage.tsx — FULL WORKING VERSION
+// =========================================================
+
 import {
   Box,
   Typography,
@@ -7,38 +11,66 @@ import {
   Button,
   Divider,
   Paper,
+  Alert,
 } from "@mui/material";
-import SecurityIcon from "@mui/icons-material/Security";
-import EmailIcon from "@mui/icons-material/Email";
-import DarkModeIcon from "@mui/icons-material/DarkMode";
-import PasswordIcon from "@mui/icons-material/Password";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
+
 import { useState } from "react";
+import { useAuth } from "../../hooks/useAuth";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 export const SettingsPage = () => {
+  const { user, updatePassword, logout } = useAuth();
+
+  // UI states
+  const [newPass, setNewPass] = useState("");
+  const [msg, setMsg] = useState<string | null>(null);
+  const [err, setErr] = useState<string | null>(null);
+
   const [enableNotif, setEnableNotif] = useState(true);
   const [darkMode, setDarkMode] = useState(false);
   const [twoFA, setTwoFA] = useState(false);
+
+  const email = user.email || "unknown@gmail.com";
+  const displayName = email.split("@")[0];
+  const firstLetter = displayName.charAt(0).toUpperCase();
+
+  // ---------------------------------------------------------
+  // CHANGE PASSWORD HANDLER
+  // ---------------------------------------------------------
+  const handleChangePassword = async () => {
+    if (newPass.length < 6) {
+      setErr("Mật khẩu phải từ 6 ký tự trở lên!");
+      setMsg(null);
+      return;
+    }
+
+    const error = await updatePassword(newPass);
+
+    if (error) {
+      setErr(error);
+      setMsg(null);
+      return;
+    }
+
+    setErr(null);
+    setMsg("Đổi mật khẩu thành công! 🎉");
+    setNewPass("");
+  };
 
   return (
     <Box
       sx={{
         p: 4,
         minHeight: "100vh",
-        background:
-          "linear-gradient(to bottom right, #0f0f20, #151530, #0d0d16)",
+        background: "linear-gradient(to bottom right, #0f0f20, #151530, #0d0d16)",
         color: "#fff",
       }}
     >
-      <Typography
-        variant="h4"
-        sx={{ fontWeight: 700, mb: 4, display: "flex", gap: 1 }}
-      >
+      <Typography variant="h4" sx={{ fontWeight: 700, mb: 4 }}>
         ⚙️ Cài Đặt Tài Khoản
       </Typography>
 
-      {/* ---------------- USER PROFILE ---------------- */}
+      {/* ================= USER PROFILE ================= */}
       <Paper
         sx={{
           p: 3,
@@ -62,84 +94,86 @@ export const SettingsPage = () => {
               fontSize: "2rem",
             }}
           >
-            U
+            {firstLetter}
           </Avatar>
 
           <Box>
-            <Typography sx={{ fontSize: "1.2rem" }}>User Profile</Typography>
-            <Typography sx={{ color: "#aaa" }}>
-              Email: user@gmail.com
-            </Typography>
+            <Typography sx={{ fontSize: "1.2rem" }}>{displayName}</Typography>
+            <Typography sx={{ color: "#aaa" }}>Email: {email}</Typography>
           </Box>
         </Box>
 
         <Divider sx={{ my: 3, borderColor: "#333" }} />
 
+        {/* ================= CHANGE PASSWORD ================= */}
         <Typography sx={{ fontWeight: 500, mb: 1 }}>Đổi mật khẩu</Typography>
+
         <Box sx={{ display: "flex", gap: 2 }}>
           <TextField
             type="password"
             label="Mật khẩu mới"
             fullWidth
+            value={newPass}
+            onChange={(e) => setNewPass(e.target.value)}
             sx={{
               input: { color: "#fff" },
               label: { color: "#999" },
             }}
           />
+
           <Button
             variant="contained"
             sx={{
               backgroundColor: "#3b82f6",
               textTransform: "none",
             }}
+            onClick={handleChangePassword}
           >
             Cập nhật
           </Button>
         </Box>
+
+        {err && (
+          <Alert severity="error" sx={{ mt: 2 }}>
+            {err}
+          </Alert>
+        )}
+
+        {msg && (
+          <Alert severity="success" sx={{ mt: 2 }}>
+            {msg}
+          </Alert>
+        )}
       </Paper>
 
-      {/* ---------------- NOTIFICATIONS ---------------- */}
+      {/* ================= NOTIFICATIONS ================= */}
       <Paper
         sx={{
           p: 3,
           mb: 4,
           background: "rgba(255,255,255,0.04)",
           borderRadius: 3,
-          backdropFilter: "blur(10px)",
           border: "1px solid rgba(255,255,255,0.1)",
+          backdropFilter: "blur(10px)",
         }}
       >
         <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
           Thông báo
         </Typography>
 
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            mb: 2,
-          }}
-        >
-          <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
-            <NotificationsActiveIcon />
-            <Typography>Bật thông báo</Typography>
-          </Box>
-          <Switch
-            checked={enableNotif}
-            onChange={() => setEnableNotif(!enableNotif)}
-          />
+        <Box sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}>
+          <Typography>Bật thông báo</Typography>
+          <Switch checked={enableNotif} onChange={() => setEnableNotif(!enableNotif)} />
         </Box>
       </Paper>
 
-      {/* ---------------- UI THEME + SECURITY ---------------- */}
+      {/* ================= UI + SECURITY ================= */}
       <Paper
         sx={{
           p: 3,
           mb: 4,
           background: "rgba(255,255,255,0.04)",
           borderRadius: 3,
-          backdropFilter: "blur(10px)",
           border: "1px solid rgba(255,255,255,0.1)",
         }}
       >
@@ -147,73 +181,43 @@ export const SettingsPage = () => {
           Giao diện & Bảo mật
         </Typography>
 
-        {/* DARK MODE */}
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            mb: 2,
-          }}
-        >
-          <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
-            <DarkModeIcon />
-            <Typography>Dark Mode</Typography>
-          </Box>
-          <Switch
-            checked={darkMode}
-            onChange={() => setDarkMode(!darkMode)}
-          />
+        <Box sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}>
+          <Typography>Dark Mode</Typography>
+          <Switch checked={darkMode} onChange={() => setDarkMode(!darkMode)} />
         </Box>
 
-        {/* 2FA */}
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            mb: 2,
-          }}
-        >
-          <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
-            <SecurityIcon />
-            <Typography>Bảo mật 2 lớp (2FA)</Typography>
-          </Box>
+        <Box sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}>
+          <Typography>Bảo mật 2 lớp (2FA)</Typography>
           <Switch checked={twoFA} onChange={() => setTwoFA(!twoFA)} />
         </Box>
       </Paper>
 
-      {/* ---------------- DELETE ACCOUNT ---------------- */}
+      {/* ================= DELETE ACCOUNT ================= */}
       <Paper
         sx={{
           p: 3,
           background: "rgba(255,0,0,0.05)",
           borderRadius: 3,
           border: "1px solid rgba(255,0,0,0.3)",
-          backdropFilter: "blur(10px)",
         }}
       >
-        <Typography
-          variant="h6"
-          sx={{ fontWeight: 600, color: "#ff4d4d", mb: 1 }}
-        >
+        <Typography variant="h6" sx={{ fontWeight: 600, color: "#ff4d4d", mb: 1 }}>
           Xóa tài khoản
         </Typography>
+
         <Typography sx={{ mb: 2, color: "#ff9999" }}>
-          Hành động này không thể hoàn tác. Hãy chắc chắn.
+          Hành động này không thể hoàn tác.
         </Typography>
 
         <Button
-          startIcon={<DeleteForeverIcon />}
+          startIcon={<LogoutIcon />}
           variant="outlined"
           sx={{
             color: "#ff4d4d",
             borderColor: "#ff4d4d",
-            "&:hover": {
-              backgroundColor: "rgba(255,0,0,0.1)",
-              borderColor: "#ff6666",
-            },
+            "&:hover": { background: "rgba(255,0,0,0.1)" },
           }}
+          onClick={logout}
         >
           Xóa tài khoản
         </Button>

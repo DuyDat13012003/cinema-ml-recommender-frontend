@@ -20,8 +20,8 @@ import { PhimChieuPage } from "../pages/PhimChieu/PhimChieuPage";
 import { ReviewPage} from "../pages/Review/ReviewPage";
 import { ReviewDetailPage} from "../pages/Review/ReviewDetailPage";
 // AUTH PAGES
-import { Login } from "../pages/Auth/Login";
-import { Register } from "../pages/Auth/Register";
+import Login  from "../pages/Auth/Login";
+import  Register  from "../pages/Auth/Register";
 import { ForgotPassword } from "../pages/Auth/ForgotPassword";
 import { ResetPassword } from "../pages/Auth/ResetPassword";
 
@@ -44,6 +44,7 @@ import { PromotionsAdmin } from "../pages/Admin/Promotions/PromotionsAdmin";
 import { AdminSettings } from "../pages/Admin/Settings/AdminSettings";
 import { AuditoriumList } from "../pages/Admin/Auditoriums/AuditoriumList";
 import { AuditoriumDetail } from "../pages/Admin/Auditoriums/AuditoriumDetail";
+import { VerifyOTP } from "../pages/Auth/VerifyOTP";
 
 const NotFound = () => (
   <div style={{ color: "white", padding: 40, fontSize: 24 }}>
@@ -61,6 +62,10 @@ export const AppRouter = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/verify-otp" element={<VerifyOTP />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+
 
         {/* USER */}
         <Route path="/" element={<Layout />}>

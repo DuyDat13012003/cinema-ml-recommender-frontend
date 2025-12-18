@@ -11,6 +11,7 @@ import {
   Avatar,
   Divider,
 } from "@mui/material";
+
 import SearchIcon from "@mui/icons-material/Search";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -24,8 +25,8 @@ import { Link, useNavigate } from "react-router-dom";
 export default function Header() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
   const handleMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -33,6 +34,9 @@ export default function Header() {
   };
 
   const handleClose = () => setAnchorEl(null);
+
+  const email = user.email;
+  const firstLetter = email ? email.charAt(0).toUpperCase() : "U";
 
   return (
     <AppBar
@@ -92,7 +96,7 @@ export default function Header() {
           ))}
         </Box>
 
-        {/* RIGHT ICONS */}
+        {/* RIGHT SECTION */}
         <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
           <IconButton sx={{ color: "white", "&:hover": { color: "#3b82f6" } }}>
             <SearchIcon />
@@ -102,89 +106,84 @@ export default function Header() {
             <NotificationsIcon />
           </IconButton>
 
-          {/* ACCOUNT / AVATAR */}
+          {/* ACCOUNT ICON */}
           <IconButton onClick={handleMenu} sx={{ p: 0 }}>
-            {user.token ? (
-              <Avatar sx={{ width: 32, height: 32, bgcolor: "#5b21b6" }}>
-                {user.role === "ADMIN" ? "A" : "U"}
+            {email ? (
+              <Avatar sx={{ width: 34, height: 34, bgcolor: "#4A90E2" }}>
+                {firstLetter}
               </Avatar>
             ) : (
               <AccountCircleIcon
                 sx={{
                   color: "white",
-                  fontSize: 30,
+                  fontSize: 34,
                   "&:hover": { color: "#3b82f6" },
                 }}
               />
             )}
           </IconButton>
 
-          {/* MENU DROPDOWN */}
-            <Menu
-              anchorEl={anchorEl}
-              open={open}
-              onClose={handleClose}
-              PaperProps={{
-                sx: {
-                  backgroundColor: "#111",
-                  color: "#fff",
-                  mt: 1,
-                  width: 200,
-                  border: "1px solid #333",
-                },
-              }}
-            >
-              {user.token
-                ? [
-                    <MenuItem key="email" disabled sx={{ color: "#888" }}>
-                      Email: {localStorage.getItem("email")}
-                    </MenuItem>,
+          {/* DROPDOWN MENU */}
+          <Menu
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            PaperProps={{
+              sx: {
+                backgroundColor: "#111",
+                color: "#fff",
+                mt: 1,
+                width: 220,
+                border: "1px solid #333",
+              },
+            }}
+          >
+            {email ? (
+              <>
+                <MenuItem disabled sx={{ color: "#aaa" }}>
+                  {email}
+                </MenuItem>
 
-                    <Divider key="divider1" sx={{ borderColor: "#444" }} />,
+                <Divider sx={{ borderColor: "#444" }} />
 
-                    <MenuItem
-                      key="settings"
-                      onClick={() => {
-                        navigate("/settings");
-                        handleClose();
-                      }}
-                      sx={{
-                        "&:hover": { backgroundColor: "#222" },
-                        gap: 1.5,
-                      }}
-                    >
-                      <SettingsIcon fontSize="small" />
-                      Cài đặt
-                    </MenuItem>,
+                <MenuItem
+                  onClick={() => {
+                    navigate("/settings");
+                    handleClose();
+                  }}
+                  sx={{ gap: 1.5, "&:hover": { background: "#222" } }}
+                >
+                  <SettingsIcon fontSize="small" />
+                  Cài đặt
+                </MenuItem>
 
-                    <MenuItem
-                      key="logout"
-                      onClick={() => {
-                        logout();
-                        handleClose();
-                      }}
-                      sx={{
-                        color: "#ff4d4d",
-                        fontWeight: "bold",
-                        gap: 1.5,
-                        "&:hover": { backgroundColor: "rgba(255,77,77,0.1)" },
-                      }}
-                    >
-                      <LogoutIcon fontSize="small" />
-                      Logout
-                    </MenuItem>,
-                  ]
-                : [
-                    <MenuItem key="login" component={Link} to="/login">
-                      Đăng nhập
-                    </MenuItem>,
-
-                    <MenuItem key="register" component={Link} to="/register">
-                      Đăng ký
-                    </MenuItem>,
-                  ]}
-            </Menu>
-
+                <MenuItem
+                  onClick={() => {
+                    logout();
+                    handleClose();
+                  }}
+                  sx={{
+                    color: "#ff4d4d",
+                    fontWeight: 600,
+                    gap: 1.5,
+                    "&:hover": { background: "rgba(255,77,77,0.1)" },
+                  }}
+                >
+                  <LogoutIcon fontSize="small" />
+                  Đăng xuất
+                </MenuItem>
+              </>
+            ) : (
+              <>
+                <MenuItem component={Link} to="/login">
+                  Đăng nhập
+                </MenuItem>
+                <MenuItem component={Link} to="/register">
+                  Đăng ký
+                </MenuItem>
+              </>
+            )}
+          </Menu>
         </Box>
       </Toolbar>
     </AppBar>

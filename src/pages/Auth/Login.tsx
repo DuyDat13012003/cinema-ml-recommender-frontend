@@ -1,5 +1,7 @@
+// ============================
+// src/pages/Auth/Login.tsx
+// ============================
 import { useState } from "react";
-import { useAuth } from "../../hooks/useAuth";
 import {
   Box,
   Button,
@@ -7,54 +9,50 @@ import {
   Typography,
   Card,
   CardContent,
+  Alert,
 } from "@mui/material";
-<Typography sx={{ mt: 1, textAlign: "right" }}>
-  <a href="/forgot-password" style={{ color: "#ddd", fontSize: "14px" }}>
-    Quên mật khẩu?
-  </a>
-</Typography>
+import { useAuth } from "../../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
+
 export const Login = () => {
   const { login } = useAuth();
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
 
   const handleLogin = async () => {
-    await login(email, password);
+    const err = await login(email, password);
+
+    if (err) {
+      setError(err);
+      return;
+    }
+
+    const role = localStorage.getItem("role");
+    navigate(role === "ADMIN" ? "/admin" : "/");
   };
 
   return (
-    <Box
-      sx={{
-        minHeight: "100vh",
-        background: "linear-gradient(135deg, #6b21a8, #2563eb)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        px: 2,
-      }}
-    >
-      <Card
-        sx={{
-          width: 400,
-          backdropFilter: "blur(12px)",
-          background: "rgba(255,255,255,0.1)",
-          borderRadius: "16px",
-          color: "white",
-          p: 2,
-        }}
-      >
+    <Box sx={{ display: "flex", justifyContent: "center", mt: 8 }}>
+      <Card sx={{ width: 420, background: "#151925", color: "#fff" }}>
         <CardContent>
-          <Typography variant="h4" sx={{ fontWeight: 700, textAlign: "center", mb: 3 }}>
+          <Typography variant="h4" sx={{ mb: 3, fontWeight: "bold" }}>
             Đăng nhập
           </Typography>
+
+          {error && (
+            <Alert severity="error" sx={{ mb: 2 }}>
+              {error}
+            </Alert>
+          )}
 
           <TextField
             fullWidth
             label="Email"
-            variant="outlined"
-            sx={{ mb: 2 }}
-            InputLabelProps={{ style: { color: "#ddd" } }}
-            inputProps={{ style: { color: "white" } }}
+            variant="filled"
+            sx={{ mb: 2, input: { color: "white" } }}
             onChange={(e) => setEmail(e.target.value)}
           />
 
@@ -62,35 +60,48 @@ export const Login = () => {
             fullWidth
             label="Mật khẩu"
             type="password"
-            variant="outlined"
-            sx={{ mb: 3 }}
-            InputLabelProps={{ style: { color: "#ddd" } }}
-            inputProps={{ style: { color: "white" } }}
+            variant="filled"
+            sx={{ mb: 1, input: { color: "white" } }}
             onChange={(e) => setPassword(e.target.value)}
           />
+
+          {/* ⭐ QUÊN MẬT KHẨU */}
+          <Typography
+            sx={{
+              textAlign: "right",
+              mb: 3,
+              mt: 1,
+              color: "#4A90E2",
+              cursor: "pointer",
+              fontSize: 14,
+            }}
+            onClick={() => navigate("/forgot-password")}
+          >
+            Quên mật khẩu?
+          </Typography>
 
           <Button
             fullWidth
             variant="contained"
-            sx={{
-              py: 1.5,
-              background: "rgba(255,255,255,0.25)",
-              fontWeight: 700,
-              "&:hover": { background: "rgba(255,255,255,0.35)" },
-            }}
+            sx={{ py: 1.4, background: "#4A90E2" }}
             onClick={handleLogin}
           >
             Đăng nhập
           </Button>
 
-          <Typography sx={{ mt: 2, textAlign: "center" }}>
+          <Typography sx={{ textAlign: "center", mt: 2 }}>
             Chưa có tài khoản?{" "}
-            <a href="/register" style={{ color: "#fff", fontWeight: 700 }}>
+            <span
+              style={{ color: "#4A90E2", cursor: "pointer" }}
+              onClick={() => navigate("/register")}
+            >
               Đăng ký ngay
-            </a>
+            </span>
           </Typography>
         </CardContent>
       </Card>
     </Box>
   );
 };
+
+export default Login;

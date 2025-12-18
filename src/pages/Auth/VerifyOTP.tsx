@@ -1,5 +1,5 @@
-// ============================ ResetPassword.tsx ============================
-import { useState } from "react";
+// ============================ VerifyOTP.tsx ============================
+import { useState, useEffect } from "react";
 import {
   Box,
   Card,
@@ -12,31 +12,43 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 
-export const ResetPassword = () => {
-  const { resetPassword } = useAuth();
+export const VerifyOTP = () => {
+  const { verifyOTP, sendResetOTP } = useAuth();
   const navigate = useNavigate();
 
-  const [pass, setPass] = useState("");
-  const [confirm, setConfirm] = useState("");
-
+  const [otp, setOtp] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
-  const handleChange = async () => {
+  const [count, setCount] = useState(30);
+  const email = localStorage.getItem("reset_email");
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCount((c) => (c > 0 ? c - 1 : 0));
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  const handleVerify = async () => {
     setError(null);
 
-    if (pass.length < 6) return setError("Mật khẩu tối thiểu 6 ký tự");
-    if (pass !== confirm) return setError("Mật khẩu nhập lại không khớp");
-
-    const err = await resetPassword(pass);
+    const err = await verifyOTP(otp);
     if (err) {
       setError(err);
       return;
     }
 
-    setSuccess("Đổi mật khẩu thành công!");
+    setSuccess("Xác thực thành công!");
+    setTimeout(() => navigate("/reset-password"), 1200);
+  };
 
-    setTimeout(() => navigate("/login"), 1500);
+  const handleResend = async () => {
+    if (!email) return;
+    await sendResetOTP(email);
+    setCount(30);
+    setSuccess("Đã gửi lại mã OTP!");
   };
 
   return (
@@ -61,42 +73,34 @@ export const ResetPassword = () => {
       >
         <CardContent>
           <Typography variant="h5" sx={{ mb: 3, fontWeight: 700 }}>
-            Đặt lại mật khẩu
+            Xác thực OTP
           </Typography>
 
           {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
           {success && <Alert severity="success" sx={{ mb: 2 }}>{success}</Alert>}
 
           <TextField
-            label="Mật khẩu mới"
-            type="password"
+            label="Mã OTP (6 số)"
             fullWidth
-            value={pass}
-            onChange={(e) => setPass(e.target.value)}
-            InputLabelProps={{ style: { color: "#ddd" } }}
-            inputProps={{ style: { color: "white" } }}
-            sx={{ mb: 2 }}
-          />
-
-          <TextField
-            label="Nhập lại mật khẩu"
-            type="password"
-            fullWidth
-            value={confirm}
-            onChange={(e) => setConfirm(e.target.value)}
+            value={otp}
+            onChange={(e) => setOtp(e.target.value)}
             InputLabelProps={{ style: { color: "#ddd" } }}
             inputProps={{ style: { color: "white" } }}
             sx={{ mb: 3 }}
           />
 
-          <Button fullWidth variant="contained" sx={{ py: 1.5 }} onClick={handleChange}>
-            Cập nhật mật khẩu
+          <Button fullWidth variant="contained" sx={{ py: 1.5 }} onClick={handleVerify}>
+            Xác nhận
           </Button>
 
           <Typography sx={{ mt: 2, textAlign: "center" }}>
-            <span style={{ cursor: "pointer", color: "#90cdf4" }} onClick={() => navigate("/login")}>
-              Quay lại đăng nhập
-            </span>
+            {count > 0 ? (
+              <>Gửi lại mã sau <b>{count}s</b></>
+            ) : (
+              <span style={{ cursor: "pointer", color: "#90cdf4" }} onClick={handleResend}>
+                Gửi lại mã OTP
+              </span>
+            )}
           </Typography>
         </CardContent>
       </Card>
