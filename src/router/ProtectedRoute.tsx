@@ -1,11 +1,10 @@
 import { Navigate } from "react-router-dom";
-import { useAuth } from "../hooks/useAuth";
+import React from "react";
 
 export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-  const { user } = useAuth();
+  const email = localStorage.getItem("email");
 
-  // Chưa đăng nhập → chuyển sang login
-  if (!user) return <Navigate to="/login" replace />;
+  if (!email) return <Navigate to="/login" replace />;
 
   return <>{children}</>;
 };

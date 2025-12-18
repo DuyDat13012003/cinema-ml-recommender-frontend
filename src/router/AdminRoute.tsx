@@ -1,11 +1,12 @@
+// src/router/AdminRoute.tsx
 import { Navigate } from "react-router-dom";
-import { useAuth } from "../hooks/useAuth";
+import React from "react";
 
 export const AdminRoute = ({ children }: { children: React.ReactNode }) => {
-  const { user } = useAuth();
+  const role = localStorage.getItem("role");
 
-  if (!user.token) return <Navigate to="/login" replace />;
-  if (user.role !== "ADMIN") return <Navigate to="/" replace />;
+  if (!role) return <Navigate to="/login" replace />;
+  if (role !== "ADMIN") return <Navigate to="/" replace />;
 
   return <>{children}</>;
 };
