@@ -1,74 +1,159 @@
-# 🎬 Cinema ML Recommender Frontend
+🎬 Cinema ML Recommender — Frontend
 
-Dự án **Cinema ML Recommender** là ứng dụng web giúp người dùng **tìm kiếm và gợi ý vé xem phim rẻ nhất** trong thành phố, được phát triển bằng **React + Vite + TypeScript + MUI (Material UI)**.  
-Frontend này kết nối với hệ thống Backend (Spring Boot + Machine Learning API) để xử lý dữ liệu và hiển thị kết quả gợi ý.
+Ứng dụng web hỗ trợ đặt vé xem phim, gợi ý phim rẻ nhất, quản lý tài khoản, OTP quên mật khẩu, phân quyền ADMIN/USER, phát triển bằng React + Vite + TypeScript + Material UI.
 
----
+👥 Nhóm thực hiện
+Vai trò	Họ và tên
+🎓 Sinh viên thực hiện	Nguyễn Nhật Thùy Trinh
+🎓 Sinh viên thực hiện	Nguyễn Hữu Duy Đạt
+🧑‍🏫 Giảng viên hướng dẫn	ThS. Mai Xuân Hùng
+🚀 Công nghệ sử dụng
 
-| Vai trò                 | Họ và tên              |
-| ----------------------- | ---------------------- |
-| 🎓 Sinh viên thực hiện  | Nguyễn Nhật Thùy Trinh |
-| 🎓 Sinh viên thực hiện  | Nguyễn Hữu Duy Đạt     |
-| 🧑‍🏫 Giảng viên hướng dẫn | ThS. Mai Xuân Hùng     |
+⚛️ React 19 (SPA)
 
----
+⚡ Vite
 
-## 🚀 Công nghệ sử dụng
+💙 TypeScript
 
-- ⚛️ **React 19** – Framework chính cho giao diện người dùng
-- ⚙️ **Vite** – Công cụ build và dev server siêu nhanh
-- 💬 **TypeScript** – Giúp code an toàn, dễ bảo trì
-- 🎨 **MUI (Material UI)** – Thư viện giao diện hiện đại
-- 🌐 **Axios** – Gọi API từ backend
-- 🔄 **React Router DOM** – Điều hướng trang
-- 🧠 **React Query** – Quản lý state và caching dữ liệu từ server
+🎨 Material UI (MUI v6)
 
----
+🌐 Axios
 
-## 📁 Cấu trúc thư mục
+🔄 React Router DOM
 
+🧠 React Query
+
+🔐 LocalStorage Authentication (Mock)
+
+📁 Cấu trúc thư mục
 cinema-ml-recommender-frontend/
-├─ index.html
-├─ vite.config.ts
-├─ tsconfig.json
-├─ package.json
-├─ public/
-└─ src/
-├─ api/ # Gọi API đến backend (Spring Boot/ML)
-├─ components/ # Các component tái sử dụng
-├─ pages/ # Các trang chính (Home, Detail, Search, ...)
-├─ hooks/ # Custom hooks (gọi API, logic)
-├─ theme.ts # Cấu hình giao diện MUI
-├─ App.tsx # Component gốc của ứng dụng
-├─ main.tsx # Entry point của React
-└─ index.css # CSS global
+│
+├── public/
+├── index.html
+├── vite.config.ts
+├── tsconfig.json
+├── package.json
+├── README.md
+├── package-lock.json
+│
+└─ src/ ├─ api/ # Gọi API đến backend (Spring Boot/ML) 
+        ├─ components/ # Các component tái sử dụng 
+        ├─ context/ # Toàn bộ context chính (Auth, Watched, Community, ...)
+        ├─ pages/ # Các trang chính (Home, Detail, Search, ...) 
+        ├─ hooks/ # Custom hooks (gọi API, logic) ├─ theme.ts # Cấu hình giao diện MUI 
+        ├── router/
+        ├─ App.test.tsx
+        ├─ App.tsx # Component gốc của ứng dụng ├─ main.tsx # Entry point của React 
+        ├─ index.tsx 
+        ├─ setupTests.ts 
+        └─ index.css # CSS global
 
-Ứng dụng này kết nối đến backend qua API (mặc định chạy tại http://localhost:8080).
-Cấu hình baseURL tại file src/api/axiosClient.ts
+🔐 Hệ thống Authentication Mock (LocalStorage)
 
----
+Toàn bộ hệ thống tài khoản hoạt động offline bằng localStorage.
 
-## Hướng dẫn sử dụng các lệnh npm
+✔ Auto-create Admin
 
-### `npm run dev`
+Tự tạo tài khoản admin khi chạy lần đầu:
 
-Lệnh này dùng để **chạy ứng dụng ở môi trường phát triển (Development Mode)**.  
-Sau khi chạy, Vite sẽ khởi động server local giúp bạn xem và chỉnh sửa code trực tiếp.  
-Mỗi khi bạn lưu file, trình duyệt sẽ tự động reload để hiển thị thay đổi.
+email: admin@gmail.com
 
----
+password: admin123
 
-### `npm run build`
+role: ADMIN
 
-Lệnh này dùng để đóng gói ứng dụng cho môi trường production (deploy thật).
-Vite sẽ biên dịch TypeScript, tối ưu code, nén file và đưa kết quả vào thư mục dist/
-Thư mục này chứa toàn bộ file tĩnh (.html, .js, .css) có thể deploy lên server thật hoặc tích hợp vào backend Spring Boot.
-Khi chạy xong, bạn sẽ thấy thư mục:
-cinema-ml-recommender-frontend/dist/
+✔ Đăng ký (Register)
 
----
+Lưu user vào localStorage.users
 
-### `npm run preview`
+Kiểm tra email tồn tại
 
-Lệnh này dùng để chạy thử bản build production ngay trên máy local.
-Sử dụng khi bạn muốn kiểm tra ứng dụng sau khi build nhưng trước khi deploy.
+Gán role mặc định: USER
+
+✔ Đăng nhập (Login)
+
+Kiểm tra email & password
+
+Lưu session: email, role
+
+Điều hướng:
+
+ADMIN → /admin
+
+USER → /
+
+✔ Quên mật khẩu (OTP Flow)
+1) Gửi OTP
+
+Hàm sendResetOTP(email)
+
+Tạo 6 số: 123456
+
+Lưu vào localStorage.reset_otp & localStorage.reset_email
+
+2) Xác thực OTP
+
+Hàm verifyOTP(otp)
+
+3) Đặt lại mật khẩu
+
+Hàm resetPassword(newPass)
+
+Cập nhật mật khẩu vào danh sách user
+
+✔ Đổi mật khẩu trong phần Cài đặt (Settings)
+
+Hàm:
+
+updatePassword(newPass)
+
+
+Chỉ hoạt động khi đã đăng nhập
+
+Ghi đè mật khẩu user hiện tại
+
+Không đăng xuất
+
+🎥 Booking + Watched Movies
+
+Khi user đặt vé → gọi addWatched(movie)
+
+Lưu lịch sử xem phim
+
+Hiển thị trong trang “Phim đã xem”
+
+Lọc theo thể loại
+
+Sắp xếp theo rating, thời gian, bảng chữ cái
+
+🛡 System Routes
+Component	Chức năng
+ProtectedRoute	Chặn truy cập nếu chưa đăng nhập
+AdminRoute	Chỉ cho ADMIN vào Admin Dashboard
+🖥 Hướng dẫn chạy dự án
+▶️ Chạy chế độ Development
+npm install
+npm run dev
+
+
+Truy cập: http://localhost:5173
+
+🏗 Build Production
+npm run build
+
+
+Kết quả nằm trong thư mục: dist/
+
+👀 Preview bản build
+npm run preview
+
+🔌 Kết nối Backend
+
+Frontend gọi API tại:
+
+http://localhost:8080
+
+
+Cấu hình ở:
+
+src/api/axiosClient.ts
