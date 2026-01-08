@@ -2,20 +2,21 @@
 import {
   Box,
   Typography,
-  Grid,
-  CircularProgress,
   Chip,
   Select,
   MenuItem,
   FormControl,
   InputLabel,
+  CircularProgress,
 } from "@mui/material";
 import { useMovies } from "../../hooks/useMovies";
-import { MovieCard } from "../../components/Common/MovieCard";
+import { MovieCarousel } from "../../components/Common/MovieCarousel";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const TrendingPage = () => {
-  const { data: trendingMovies, isLoading } = useMovies("trending");
+  const navigate = useNavigate();
+  const { data: movies, isLoading } = useMovies("trending");
 
   const [genreFilter, setGenreFilter] = useState("All");
   const [ageFilter, setAgeFilter] = useState("All");
@@ -32,11 +33,11 @@ export const TrendingPage = () => {
   ];
   const ageRatings = ["All", "6+", "13+", "16+", "18+"];
 
-  const filteredMovies = trendingMovies
+  const filteredMovies = movies
     ?.filter(
-      (movie) => genreFilter === "All" || movie.genres.includes(genreFilter)
+      (m) => genreFilter === "All" || m.genres.includes(genreFilter)
     )
-    ?.filter((movie) => ageFilter === "All" || movie.ageRating === ageFilter)
+    ?.filter((m) => ageFilter === "All" || m.ageRating === ageFilter)
     ?.sort((a, b) => {
       if (sortBy === "rating-desc") return b.rating - a.rating;
       if (sortBy === "rating-asc") return a.rating - b.rating;
@@ -47,17 +48,15 @@ export const TrendingPage = () => {
 
   return (
     <Box sx={{ p: 4 }}>
-      {/* BANNER */}
+      {/* ================= BANNER ================= */}
       <Box
         sx={{
-          width: "100%",
           height: 260,
           backgroundImage:
             "url(https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?auto=format&w=1400)",
           backgroundSize: "cover",
           backgroundPosition: "center",
           borderRadius: 3,
-          position: "relative",
           mb: 5,
           display: "flex",
           alignItems: "flex-end",
@@ -69,14 +68,14 @@ export const TrendingPage = () => {
           sx={{
             fontWeight: 800,
             color: "#fff",
-            textShadow: "0px 4px 20px rgba(0,0,0,0.8)",
+            textShadow: "0 4px 20px rgba(0,0,0,0.8)",
           }}
         >
           🔥 Thịnh hành
         </Typography>
       </Box>
 
-      {/* FILTER BAR */}
+      {/* ================= FILTER BAR ================= */}
       <Box
         sx={{
           display: "flex",
@@ -86,8 +85,8 @@ export const TrendingPage = () => {
           alignItems: "center",
         }}
       >
-        {/* GENRE FILTER */}
-        <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
+        {/* Genre chips */}
+        <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
           {genres.map((g) => (
             <Chip
               key={g}
@@ -98,30 +97,29 @@ export const TrendingPage = () => {
                 backgroundColor: genreFilter === g ? "#4299e1" : "#1a1a2e",
                 color: genreFilter === g ? "#fff" : "#ccc",
                 fontWeight: 600,
-                px: 2,
               }}
             />
           ))}
         </Box>
 
-        {/* AGE FILTER */}
+        {/* Age */}
         <FormControl size="small" sx={{ minWidth: 120 }}>
           <InputLabel sx={{ color: "#ccc" }}>Độ tuổi</InputLabel>
           <Select
             value={ageFilter}
             label="Độ tuổi"
             onChange={(e) => setAgeFilter(e.target.value)}
-            sx={{ color: "#fff", borderColor: "#fff" }}
+            sx={{ color: "#fff" }}
           >
-            {ageRatings.map((age) => (
-              <MenuItem key={age} value={age}>
-                {age}
+            {ageRatings.map((a) => (
+              <MenuItem key={a} value={a}>
+                {a}
               </MenuItem>
             ))}
           </Select>
         </FormControl>
 
-        {/* SORT */}
+        {/* Sort */}
         <FormControl size="small" sx={{ minWidth: 150 }}>
           <InputLabel sx={{ color: "#ccc" }}>Sắp xếp</InputLabel>
           <Select
@@ -138,28 +136,20 @@ export const TrendingPage = () => {
         </FormControl>
       </Box>
 
-      {/* LOADING */}
+      {/* ================= CONTENT ================= */}
       {isLoading && (
-        <Box sx={{ textAlign: "center", mt: 4 }}>
+        <Box sx={{ textAlign: "center", mt: 6 }}>
           <CircularProgress sx={{ color: "#4299e1" }} />
         </Box>
       )}
 
-      {/* MOVIE GRID */}
-      <Grid container spacing={3}>
-        {filteredMovies?.map((movie) => (
-          <Grid size={{ xs: 12, sm: 6, md: 3 }} key={movie.id}>
-            <Box
-              sx={{
-                width: "280px", // ⭐ GIỐNG HOME → FIX CARD LỆCH
-                maxWidth: "280px",
-              }}
-            >
-              <MovieCard {...movie} />
-            </Box>
-          </Grid>
-        ))}
-      </Grid>
+      {!isLoading && filteredMovies && (
+        <MovieCarousel
+          title=""                 // ❗ không cần title vì đã có banner
+          movies={filteredMovies}  // ⭐ dùng MovieCard giống Home
+          onViewAll={() => navigate("/thinh-hanh")}
+        />
+      )}
     </Box>
   );
 };
