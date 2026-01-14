@@ -58,7 +58,7 @@ Tự tạo tài khoản admin khi chạy lần đầu:
 
 email: admin@gmail.com
 
-password: admin123
+password: 123456
 
 role: ADMIN
 
@@ -136,7 +136,7 @@ npm install
 npm run dev
 
 
-Truy cập: http://localhost:5173
+Truy cập: http://localhost:3000
 
 🏗 Build Production
 npm run build
