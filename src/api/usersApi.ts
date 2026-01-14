@@ -1,7 +1,36 @@
 // ==========================
 // MOCK API CHUẨN BACKEND
 // ==========================
+// src/api/usersApi.ts
+import axiosClient from "./axiosClient";
 
+/* =========================
+   AUTH API – BACKEND THẬT
+   ========================= */
+
+export interface LoginRequest {
+  email: string;
+  password: string;
+}
+
+export const authApi = {
+  login(data: LoginRequest): Promise<string> {
+    // Backend trả token dạng TEXT
+    return axiosClient.post("/api/auth/login", data);
+  },
+
+  register(data: {
+    email: string;
+    password: string;
+    name: string;
+    phone: string;
+  }) {
+    return axiosClient.post("/api/auth/register", data);
+  },
+};
+// ==========================
+// MOCK API CHUẨN BACKEND
+// ==========================
 export type UserRole = "Khách hàng" | "Nhân viên" | "Quản trị viên";
 export type UserStatus = "active" | "inactive";
 
