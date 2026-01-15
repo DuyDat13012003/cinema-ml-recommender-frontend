@@ -1,8 +1,6 @@
 // =========================================================
 // src/context/AuthContext.tsx — FULL VERSION + Update Password
 // =========================================================
-import { authApi } from "../api/usersApi";
-
 import { createContext, useContext, useState, ReactNode, useEffect } from "react";
 
 interface UserData {
@@ -77,28 +75,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   // =========================================================
   // LOGIN
   // =========================================================
-const login = async (email: string, password: string) => {
-  try {
-    const token = await authApi.login({ email, password });
+  const login = async (email: string, password: string) => {
+    const users = loadUsers();
+    const found = users.find((u) => u.email === email);
 
-    localStorage.setItem("token", token);
-    localStorage.setItem("email", email);
+    if (!found) return "Email không tồn tại!";
+    if (found.password !== password) return "Sai mật khẩu!";
 
-    const payload = JSON.parse(atob(token.split(".")[1]));
+    localStorage.setItem("email", found.email);
+    localStorage.setItem("role", found.role);
 
-    // ⭐ GIỮ NGUYÊN ROLE BACKEND
-    const role = payload.role; // "ROLE_ADMIN" | "ROLE_USER"
-
-    localStorage.setItem("role", role);
-
-    setUser({ email, role });
-
+    setUser({ email: found.email, role: found.role });
     return null;
-  } catch (e) {
-    return "Email hoặc mật khẩu không đúng!";
-  }
-};
-
+  };
 
   // =========================================================
   // REGISTER
