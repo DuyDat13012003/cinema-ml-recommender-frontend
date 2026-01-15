@@ -58,7 +58,7 @@ Tự tạo tài khoản admin khi chạy lần đầu:
 
 email: admin@gmail.com
 
-password: 123456
+password: admin123
 
 role: ADMIN
 
@@ -87,7 +87,7 @@ USER → /
 
 Hàm sendResetOTP(email)
 
-Tạo 6 số: 123456
+Tạo 6 số: bất kì được gửi trong console
 
 Lưu vào localStorage.reset_otp & localStorage.reset_email
 
@@ -146,14 +146,3 @@ Kết quả nằm trong thư mục: dist/
 
 👀 Preview bản build
 npm run preview
-
-🔌 Kết nối Backend
-
-Frontend gọi API tại:
-
-http://localhost:8080
-
-
-Cấu hình ở:
-
-src/api/axiosClient.ts
